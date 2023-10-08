@@ -1,0 +1,54 @@
+.best_of_electronics{
+    margin-top: 30px !important;
+    display: flex;
+}
+.best_of_electronics .card_1{
+    background-image: url("public/Electronics.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 280px;
+    height: 225px;
+}
+.best_of_electronics.Fashion .card_1{
+    background-image: url("public//fashion.jpg");
+    background-position: center;
+}
+.best_of_electronics.Home_decor .card_1{
+    background-image: url("public/Home_Decor.png");
+    background-position: right;
+}
+
+
+.best_of_electronics .card_1 .card-body{
+    padding: 25px;
+}
+.best_of_electronics .card_1 .card-body .card-title{
+    font-size: 25px;
+    margin-bottom: 0;
+}
+.best_of_electronics .card_1 .card-body button{
+    border: none;
+    outline: none;
+    background: rgb(159, 32, 137);
+    border-radius: 4px !important;
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+.best_of_electronics .card_2{
+    height: 225px;
+}
+.best_of_electronics .card_2 .p_card-img{
+    height: 180px;
+    margin-bottom: 10px;
+}
+.best_of_electronics .card_2 .p_card-img .card-img-top{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   
+}
+.best_of_electronics .card_2 .card-title{
+    font-size: 18px;
+    margin-bottom: 0;
+    text-align: center;
+}

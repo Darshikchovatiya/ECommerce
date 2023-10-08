@@ -1,0 +1,25 @@
+.vc_title{
+    border-bottom: 1px solid rgba(0 , 0, 0, .2);
+    text-align: center;
+    padding: 30px;
+}
+.vc_title span{
+    opacity: .5;
+    font-size: 14px;
+}
+.vc_product{
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.vc_product .card{
+    padding: 25px 15px;
+    border: none;
+}
+.vc_product .card button{
+    border: none;
+    outline: none;
+    background: rgb(159, 32, 137);
+    border-radius: 4px !important;
+    color: rgb(255, 255, 255);
+}

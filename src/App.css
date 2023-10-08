@@ -1,0 +1,17 @@
+.load_ing{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #fff;
+    position: relative;
+}
+.load_ing .load_imag{
+  width: 450px;
+  height: 450px;
+}
+.load_ing .load_imag img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
