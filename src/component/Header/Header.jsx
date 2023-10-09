@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Badge, Button, Container, Dropdown, Form, ListGroup, Nav, NavDropdown, Navbar } from 'react-bootstrap';
+import { Badge, Button, Container, Dropdown, Form, ListGroup, Modal, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { BsCart2, BsSearch } from 'react-icons/bs';
 import { FaRegUser } from 'react-icons/fa6';
 import { base_api } from '../../api/Products_api';
@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { product_view } from '../../services/actions/products_action';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Firebase';
+import { LogoutAsync } from '../../services/actions/auth_action';
+
+
 
 function Header() {
 
@@ -22,11 +25,18 @@ function Header() {
     const { cart_products } = useSelector(state => state.Products_Re);
     // console.log(cart_products);
 
+    const { isLogin } = useSelector(state => state.Auth_Re);
+    const { displayName } = useSelector(state => state.Auth_Re.user);
+
     const [search_de, setSearch_de] = useState([]);
 
     const [inputvalue, setInputvalue] = useState({
         search: ''
     })
+
+
+    const [show, setShow] = useState(false);
+
 
     const handleSearch = async (e) => {
 
@@ -95,7 +105,20 @@ function Header() {
         navigate('/signin');
     }
 
-    const handleLogout = () => {
+
+    const handleShow = () => {
+        setShow(true);
+    }
+
+    const handleClose = () => {
+        setShow(false);
+    }
+
+    const handleLogout = async () => {
+        await dispatch(LogoutAsync());
+        alert("Logout Successfully");
+        setShow(false);
+        navigate('/');
 
     }
 
@@ -142,11 +165,41 @@ function Header() {
                             <NavDropdown title="Profile" id="navbarScrollingDropdown" className='h_drop_down'>
                                 <div className="he_drop_item">
                                     <span>Hello </span>
-                                    <span>User</span>
-                                    <button className='he_btn' onClick={handleLogin}>Sign In</button>
-                                    <button className='he_btn' onClick={handleLogout}>Log Out</button>
+                                    {
+                                        isLogin ?
+                                            <>
+                                                <span>{displayName}</span>
+                                                <button className='he_btn' onClick={handleShow}>Log Out</button>
+                                            </>
+
+                                            :
+                                            <>
+                                                <span>User</span>
+                                                <button className='he_btn' onClick={handleLogin}>Sign In</button>
+
+                                            </>
+
+                                    }
+
                                 </div>
                             </NavDropdown>
+
+                            <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} >
+                                <Modal.Header>
+                                    <Modal.Title>Log Out</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    Are you sure you want to log out?
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose}>
+                                        cancel
+                                    </Button>
+                                    <Button variant="primary" onClick={handleLogout}>Log Out</Button>
+                                </Modal.Footer>
+                            </Modal>
+
+
                             <NavLink to='/cart' className='nav-link'>
                                 <BsCart2 className='cart_icon' />
                                 Cart

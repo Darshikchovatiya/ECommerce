@@ -34,7 +34,7 @@ const elec_pro = async () => {
   })
   // console.log(el_data,"el_data");
   return el_data;
-  
+
 }
 // console.log(elec_pro(),"elec_pro");
 
@@ -62,7 +62,7 @@ const fashion_pro = async () => {
   })
   // console.log(fas_data,"fas_data");
   return fas_data;
-  
+
 }
 // console.log(fashion_pro(),"fashion_pro");
 
@@ -90,7 +90,7 @@ const homede_pro = async () => {
   })
   // console.log(hom_data,"hom_data");
   return hom_data;
-  
+
 }
 // console.log(homede_pro(),"homede_pro");
 
@@ -181,6 +181,7 @@ function View_category() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cate_value } = useSelector(state => state.Products_Re);
+  const { isLogin } = useSelector(state => state.Auth_Re)
 
 
   const [ele_pr, setEle_pr] = useState([]);
@@ -233,129 +234,130 @@ function View_category() {
 
 
 
+  if (isLogin) {
+    if (cate_value == "electronics") {
+      return (
+        <>
+          <div className="vc_title">
+            <h4>Best of Electronics</h4>
+            <span>{ele_pr.length} items</span>
+          </div>
+          <Container>
+            <Row>
+              <div className="vc_product">
+                {
+                  ele_pr.map((el) => {
+                    // console.log(el,"el");
+                    return (
+                      <Card style={{ width: '25%' }}>
+                        <div style={{ width: "200px", height: "200px", margin: "0 auto" }}>
+                          <Card.Img variant="top" src={el.thumbnail} style={{ width: "100%", height: "100%", objectFit: "cover", margin: "auto" }} />
+                        </div>
+                        {/* <Card.Img variant="top" src={el.thumbnail}/> */}
+                        <Card.Body>
+                          <Card.Title>{el.title}</Card.Title>
+                          <Card.Text>
+                            {el.description}
+                          </Card.Text>
+                          <Button onClick={() => handleEle_view(el)}>View Product</Button>
+                        </Card.Body>
+                      </Card>
 
+                    )
+                  })
+                }
+              </div>
 
+            </Row>
+          </Container>
+        </>
+      )
+    }
 
+    else if (cate_value == "fashion") {
+      return (
+        <>
+          <div className="vc_title">
+            <h4>Best of Fashion</h4>
+            <span>{fashion_pr.length} items</span>
+          </div>
+          <Container>
+            <Row>
+              <div className="vc_product">
+                {
+                  fashion_pr.map((fap) => {
+                    // console.log(el,"el");
+                    return (
+                      <Card style={{ width: '25%' }}>
+                        <div style={{ width: "200px", height: "200px", margin: "0 auto" }}>
+                          <Card.Img variant="top" src={fap.thumbnail} style={{ width: "100%", height: "100%", objectFit: "cover", margin: "auto" }} />
+                        </div>
+                        {/* <Card.Img variant="top" src={el.thumbnail}/> */}
+                        <Card.Body>
+                          <Card.Title>{fap.title}</Card.Title>
+                          <Card.Text>
+                            {fap.description}
+                          </Card.Text>
+                          <Button variant="primary" onClick={() => handleFash_view(fap)}>View Product</Button>
+                        </Card.Body>
+                      </Card>
 
+                    )
+                  })
+                }
+              </div>
+            </Row>
+          </Container>
+        </>
+      )
+    }
 
-  if (cate_value == "electronics") {
-    return (
-      <>
-        <div className="vc_title">
-          <h4>Best of Electronics</h4>
-          <span>{ele_pr.length} items</span>
-        </div>
-        <Container>
-          <Row>
-            <div className="vc_product">
-              {
-                ele_pr.map((el) => {
-                  // console.log(el,"el");
-                  return (
-                    <Card style={{ width: '25%' }}>
-                      <div style={{ width: "200px", height: "200px", margin: "0 auto" }}>
-                        <Card.Img variant="top" src={el.thumbnail} style={{ width: "100%", height: "100%", objectFit: "cover", margin: "auto" }} />
-                      </div>
-                      {/* <Card.Img variant="top" src={el.thumbnail}/> */}
-                      <Card.Body>
-                        <Card.Title>{el.title}</Card.Title>
-                        <Card.Text>
-                          {el.description}
-                        </Card.Text>
-                        <Button onClick={() => handleEle_view(el)}>View Product</Button>
-                      </Card.Body>
-                    </Card>
+    else if (cate_value == "home_decor") {
+      return (
+        <>
+          <div className="vc_title">
+            <h4>Best of Home Decor</h4>
+            <span>{homedec_pr.length} items</span>
+          </div>
+          <Container>
+            <Row>
+              <div className="vc_product">
+                {
+                  homedec_pr.map((homde) => {
+                    // console.log(el,"el");
+                    return (
+                      <Card style={{ width: '25%' }}>
+                        <div style={{ width: "200px", height: "200px", margin: "0 auto" }}>
+                          <Card.Img variant="top" src={homde.thumbnail} style={{ width: "100%", height: "100%", objectFit: "cover", margin: "auto" }} />
+                        </div>
+                        {/* <Card.Img variant="top" src={el.thumbnail}/> */}
+                        <Card.Body>
+                          <Card.Title>{homde.title}</Card.Title>
+                          <Card.Text>
+                            {homde.description}
+                          </Card.Text>
+                          <Button variant="primary" onClick={() => handleHome_view(homde)}>View Product</Button>
+                        </Card.Body>
+                      </Card>
 
-                  )
-                })
-              }
-            </div>
+                    )
+                  })
+                }
+              </div>
+            </Row>
+          </Container>
+        </>
+      )
+    }
 
-          </Row>
-        </Container>
-      </>
-    )
+  }
+  else{
+    navigate('/signin');
   }
 
-  else if (cate_value == "fashion") {
-    return (
-      <>
-        <div className="vc_title">
-          <h4>Best of Fashion</h4>
-          <span>{fashion_pr.length} items</span>
-        </div>
-        <Container>
-          <Row>
-            <div className="vc_product">
-              {
-                fashion_pr.map((fap) => {
-                  // console.log(el,"el");
-                  return (
-                    <Card style={{ width: '25%' }}>
-                      <div style={{ width: "200px", height: "200px", margin: "0 auto" }}>
-                        <Card.Img variant="top" src={fap.thumbnail} style={{ width: "100%", height: "100%", objectFit: "cover", margin: "auto" }} />
-                      </div>
-                      {/* <Card.Img variant="top" src={el.thumbnail}/> */}
-                      <Card.Body>
-                        <Card.Title>{fap.title}</Card.Title>
-                        <Card.Text>
-                          {fap.description}
-                        </Card.Text>
-                        <Button variant="primary" onClick={() => handleFash_view(fap)}>View Product</Button>
-                      </Card.Body>
-                    </Card>
-
-                  )
-                })
-              }
-            </div>
-          </Row>
-        </Container>
-      </>
-    )
-  }
-
-  else if (cate_value == "home_decor") {
-    return (
-      <>
-        <div className="vc_title">
-          <h4>Best of Home Decor</h4>
-          <span>{homedec_pr.length} items</span>
-        </div>
-        <Container>
-          <Row>
-            <div className="vc_product">
-              {
-                homedec_pr.map((homde) => {
-                  // console.log(el,"el");
-                  return (
-                    <Card style={{ width: '25%' }}>
-                      <div style={{ width: "200px", height: "200px", margin: "0 auto" }}>
-                        <Card.Img variant="top" src={homde.thumbnail} style={{ width: "100%", height: "100%", objectFit: "cover", margin: "auto" }} />
-                      </div>
-                      {/* <Card.Img variant="top" src={el.thumbnail}/> */}
-                      <Card.Body>
-                        <Card.Title>{homde.title}</Card.Title>
-                        <Card.Text>
-                          {homde.description}
-                        </Card.Text>
-                        <Button variant="primary" onClick={() => handleHome_view(homde)}>View Product</Button>
-                      </Card.Body>
-                    </Card>
-
-                  )
-                })
-              }
-            </div>
-          </Row>
-        </Container>
-      </>
-    )
-  }
-
-  useEffect(() => {
-    navigate('/');
-  })
+  // useEffect(() => {
+  //   navigate('/');
+  // })
 }
 
 export default View_category;

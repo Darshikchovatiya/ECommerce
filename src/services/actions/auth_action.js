@@ -1,9 +1,9 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../../Firebase"
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth"
+import { auth, provider } from "../../Firebase"
 
 export const signupAsync = () => {
     return dispatch => {
-        createUserWithEmailAndPassword(auth, email, password).then((res) => {
+        createUserWithEmailAndPassword(auth, data.email, data.password).then((res) => {
             console.log("res", res);
             // const user = userCredential.user;
         }).catch((err) => {
@@ -42,6 +42,80 @@ const signin_suc = (user) => {
 const signin_err = (msg) => {
     return {
         type: "Signin_Err",
+        payload: msg
+    }
+}
+
+export const GoogleSignAsync = () => {
+    return dispatch => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // IdP data available using getAdditionalUserInfo(result)
+                // ...
+                // console.log(result,"credential");
+                // console.log(credential,"credential");
+                dispatch(Googlesign_suc(user));
+
+
+            }).catch((error) => {
+                // console.log(error, "error");
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+
+                dispatch(Googlesign_err(errorCode));
+                // ...
+            });
+    }
+}
+
+
+const Googlesign_suc = (user) => {
+    return {
+        type: "googleSign_Suc",
+        payload: user
+    }
+}
+
+const Googlesign_err = (msg) => {
+    return {
+        type: "googleSign_Err",
+        payload: msg
+    }
+}
+
+export const LogoutAsync = () => {
+    return dispatch => {
+        signOut(auth).then((res) => {
+            // console.log(res, "res");
+            dispatch(Logout_suc());
+            // Sign-out successful.
+        }).catch((error) => {
+            // console.log(error, "error");
+            dispatch(Logout_err(error));
+            // An error happened.
+        });
+    }
+}
+
+const Logout_suc = () => {
+    return {
+        type: "logout_Suc"
+    }
+}
+
+const Logout_err = (msg) => {
+    return {
+        type: "logout_Err",
         payload: msg
     }
 }
