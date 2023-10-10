@@ -12,7 +12,7 @@ function View() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { product, pro_qty } = useSelector(state => state.Products_Re);
+  const { product, pro_qty, cart_products } = useSelector(state => state.Products_Re);
   const { isLogin } = useSelector(state => state.Auth_Re)
 
   const images = [product.img1, product.img2, product.img3, product.img4];
@@ -29,10 +29,13 @@ function View() {
 
 
 
+  
+
   const handleImg = (pro) => {
     // console.log("pro",pro);
     setImg_val(pro);
   }
+
 
   const handleAddtoCart = (prod) => {
     // console.log(prod,"prod");
@@ -41,9 +44,13 @@ function View() {
     let prod_fin = { ...prod, fin_pri: pro_fin_pri, p_qt: pro_qty };
 
     // console.log(prod_fin,"prod_fin");
-
-    dispatch(add_to(prod_fin));
-
+    // if (atc_btn) {
+    //   console.log("Hi");
+    // }
+    // else {
+      dispatch(add_to(prod_fin));
+      alert("Item is added");
+    // }
   }
 
 
@@ -126,7 +133,7 @@ function View() {
                       </div>
                     </div>
                   </div>
-                :
+                  :
                   navigate('/signin')
               }
             </Row>
@@ -149,8 +156,6 @@ function View() {
   return (
     data
   )
-
-  // (20/100 = 0.2). You have Rs 1,000 * 0.2 = Rs 200. You then subtract the discount from the original price as Rs 1,000 – Rs 200 = Rs 800
 
 }
 

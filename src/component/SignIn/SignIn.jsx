@@ -11,11 +11,8 @@ function SignIn() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { err, user } = useSelector(state => state.Auth_Re);
+    const { err, isLogin } = useSelector(state => state.Auth_Re);
     // console.log(err, "err");
-
-
-    // const [validated, setValidated] = useState(false);
 
 
     const [inputFiled, setInputFiled] = useState({
@@ -36,47 +33,34 @@ function SignIn() {
     }
 
     const handleSignin = (e) => {
-
-        // let form = e.currentTarget;
-
-
-        // if (form.checkValidity() === false) {
-        //     e.stopPropagation();
-        // }
-        // setValidated(true);
-
-
         e.preventDefault();
 
-        // let validInpu = document.getElementById('valid_inpu');
 
-        // inputFiled.email == "" && inputFiled.password == "" ? validInpu.classList.add('alert-validate') : dispatch(signinAsync(inputFiled));
+        if(inputFiled.email == "" && inputFiled.password == ""){
+            alert("Please Enter Email & Password");
+        }
+        else{
+            dispatch(signinAsync(inputFiled));
+            if(inputFiled.email == ""){
+                alert("Please Enter Email");
+            }
+            else if(inputFiled.password == ""){
+                alert("Please Enter Password");
+            }
+            else if(err == 'auth/wrong-password'){
+                alert("Your Password is Wrong");
+            }
+            else if(err == 'auth/invalid-login-credentials' || err == 'auth/user-not-found'){
+                alert("Don't have an account? Please Sign Up");
+                navigate('/signup');
+            }
+            
+            if(isLogin){
+                alert("Login Successfully");
+                navigate('/');
 
-
-
-        // if(inputFiled.email == ""){
-
-        //     let validInpu = document.getElementById('valid_inpu');
-        //     validInpu.classList.add('alert-validate');
-        //     // alert("Fill the Form");
-
-        //     // err == "auth/invalid-email" ? "Please Enter Details" : ""
-
-
-        // }
-        // else if(inputFiled.password == ""){
-        //     let validInpu = document.getElementById('valid_inpu');
-        //     validInpu.classList.add('alert-validate');
-        // }
-        // else{
-        //     let validInpu = document.getElementById('valid_inpu');
-
-        //     validInpu.classList.remove('alert-validate');
-        //     dispatch(signinAsync(inputFiled));
-        // }
-
-
-
+            }
+        }
 
     }
 
@@ -84,9 +68,13 @@ function SignIn() {
     const handleGoogle = async () => {
 
         await dispatch(GoogleSignAsync());
-        await alert("SignIn Successfully");
-        await navigate('/');
+        
     }
+
+    // if(isLogin){
+    //     alert("SignIn Successfully");
+    //     navigate('/');
+    // }
 
 
     return (
@@ -106,31 +94,17 @@ function SignIn() {
                                 <span className="txt1">Email</span>
                             </div>
 
-                            <div className="wrap-input100 validate-input" id='valid_inpu'
+                            <div className="wrap-input100 validate-input">
 
-                                data-validate={
-                                    err == "auth/invalid-email" ? "Please Enter Details" : err == "auth/missing-password" ? "Please Enter Password" : err == "auth/wrong-password" ? "Your Password is Wrong" : err == "auth/user-not-found" ? "Don't have an account? Please Sign Up" : ""
-                                } >
-
-                                <input className="input100" onChange={handleChange} type="text" name="email" value={inputFiled.email} />
+                                <input className="input100" onChange={handleChange} type="email" name="email" value={inputFiled.email} />
                                 <span className="focus-input100"></span>
-                                {/* <Form.Control.Feedback type="invalid">
-                                    Please Enter Email
-                                </Form.Control.Feedback> */}
-
-                                {/* <input type="email" className="input100" name="email" value={inputFiled.email} onChange={handleChange} required />
-                                <Form.Control.Feedback type="invalid">
-                                    Please Enter Email
-                                </Form.Control.Feedback> */}
                             </div>
 
                             <div className="pas_ptb">
                                 <span className="txt1">Password</span>
                             </div>
 
-                            <div className="wrap-input100 validate-input" id='valid_inpu' data-validate={
-                                err == "auth/invalid-email" ? "Please Enter Details" : err == "auth/missing-password" ? "Please Enter Password" : err == "auth/wrong-password" ? "Your Password is Wrong" : err == "auth/user-not-found" ? "Don't have an account? Please Sign Up" : ""
-                            }>
+                            <div className="wrap-input100 validate-input">
                                 <input className="input100" onChange={handleChange} type="password" name="password" value={inputFiled.password} />
                                 <span className="focus-input100"></span>
                             </div>

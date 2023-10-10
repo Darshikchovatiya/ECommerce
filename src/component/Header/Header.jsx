@@ -26,7 +26,7 @@ function Header() {
     // console.log(cart_products);
 
     const { isLogin } = useSelector(state => state.Auth_Re);
-    const { displayName } = useSelector(state => state.Auth_Re.user);
+    const { displayName, email } = useSelector(state => state.Auth_Re.user);
 
     const [search_de, setSearch_de] = useState([]);
 
@@ -168,7 +168,11 @@ function Header() {
                                     {
                                         isLogin ?
                                             <>
-                                                <span>{displayName}</span>
+                                                {
+                                                    displayName ?
+                                                        <span>{displayName}</span>
+                                                    : <span>{email}</span>
+                                                }
                                                 <button className='he_btn' onClick={handleShow}>Log Out</button>
                                             </>
 

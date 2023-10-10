@@ -14,7 +14,8 @@ function Cart() {
 
 
 
-  const { cart_products } = useSelector(state => state.Products_Re);
+  const { cart_products, pro_qty } = useSelector(state => state.Products_Re);
+
   // console.log(cart_products,"<<<<cart_products");
   // console.log(pro_qty,"<<<<pro_qty Cart");
 
@@ -69,6 +70,7 @@ function Cart() {
                           {
                             cart_products.map((ca_pro) => {
 
+                              // console.log(ca_pro.p_qt);
 
 
                               // let su_to = 0;
@@ -81,8 +83,11 @@ function Cart() {
 
 
                               let su_to = ca_pro.fin_pri;
-                              let sub_to = su_to * ca_pro.p_qt;
+                              let sub_to = su_to * pro_qty;
                               // console.log(sub_to);
+
+
+                              
 
 
 
@@ -149,8 +154,14 @@ function Cart() {
                     <div className="cart_check">
                       <div className="cart_check_body">
                         <div className="cart_cb_group">
+                          {/* {
+                            let fin_to = 0;
+                            let fin_tot = fin_to + sub_to;
+                            console.log(fin_tot,"fin_tot");
+
+                          } */}
                           <div className="cart_subTotals">
-                            <span className="cart_st_te">SubTotal:</span>
+                            <span className="cart_st_te">SubTotal (item {cart_products.length}) :</span>
                             <span className="cart_st_pr">$20</span>
                           </div>
                           <div className="cart_subTotals">

@@ -1,18 +1,37 @@
 import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth"
 import { auth, provider } from "../../Firebase"
 
-export const signupAsync = () => {
+export const signupAsync = (data) => {
     return dispatch => {
-        createUserWithEmailAndPassword(auth, data.email, data.password).then((res) => {
-            console.log("res", res);
-            // const user = userCredential.user;
-        }).catch((err) => {
-            console.log("err", err);
-            // const errorCode = error.code;
+        createUserWithEmailAndPassword(auth, data.email, data.password).then((userCredential) => {
+            const user = userCredential.user;
+            // console.log("user", user);
+            dispatch(signup_suc(user));
+
+        }).catch((error) => {
+            // console.log("err", err);
+            const errorCode = error.code;
+            dispatch(signup_err(errorCode));
             // const errorMessage = error.message;
         })
     }
 }
+
+const signup_suc = (user) => {
+    return {
+        type: "Signup_Suc",
+        payload: user
+    }
+}
+
+const signup_err = (msg) => {
+    return {
+        type: "Signup_Err",
+        payload: msg
+    }
+}
+
+
 
 export const signinAsync = (data) => {
     return dispatch => {
@@ -45,6 +64,8 @@ const signin_err = (msg) => {
         payload: msg
     }
 }
+
+
 
 export const GoogleSignAsync = () => {
     return dispatch => {
@@ -92,6 +113,8 @@ const Googlesign_err = (msg) => {
         payload: msg
     }
 }
+
+
 
 export const LogoutAsync = () => {
     return dispatch => {
